@@ -13,14 +13,29 @@ router.post('/', auth, async (req, res) => {
 
 // Get Tasks with pagination
 router.get('/', auth, async (req, res) => {
-  const { page = 1, limit = 5 } = req.query;
-  const tasks = await Task.find({ assignedTo: req.user.id })
-    .skip((page - 1) * limit)
-    .limit(Number(limit))
-    .sort({ dueDate: 1 });
-  const total = await Task.countDocuments({ assignedTo: req.user.id });
-  res.json({ tasks, total });
+  try {
+    const pageNum = Number(req.query.page) || 1;
+    const limitNum = Number(req.query.limit) || 5;
+
+    const total = await Task.countDocuments({ assignedTo: req.user.id });
+    const totalPages = Math.ceil(total / limitNum) || 1;
+
+    if (pageNum > totalPages) {
+      return res.json({ tasks: [], total, totalPages });
+    }
+
+    const tasks = await Task.find({ assignedTo: req.user.id })
+      .skip((pageNum - 1) * limitNum)
+      .limit(limitNum)
+      .sort({ dueDate: 1 });
+
+    res.json({ tasks, total, totalPages });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
+
+
 
 // Get Task by ID
 router.get('/:id', auth, async (req, res) => {

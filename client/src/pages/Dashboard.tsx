@@ -13,18 +13,23 @@ const Dashboard: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
 
-  const fetchTasks = async () => {
+  const fetchTasks = async (targetPage = page) => {
     try {
-      const res = await API.get(`/tasks?page=${page}`);
+      const res = await API.get(`/tasks?page=${targetPage}`);
       setTasks(res.data.tasks);
-      setTotalPages(res.data.totalPages);
+      setTotalPages(res.data.totalPages || 1);
+
+      // Prevent showing empty pages if user goes beyond totalPages
+      if (targetPage > (res.data.totalPages || 1)) {
+        setPage(1);
+      }
     } catch (err) {
       console.error(err);
     }
   };
 
   useEffect(() => {
-    fetchTasks();
+    fetchTasks(page);
   }, [page]);
 
   const handleDelete = async (id: string) => {
@@ -37,8 +42,8 @@ const Dashboard: React.FC = () => {
     const task = tasks.find(t => t._id === id);
     if (!task) return;
     const newStatus = task.status === 'pending' ? 'completed' : 'pending';
-    await API.put(`/tasks/${id}`, { ...task, status: newStatus });
-    setTasks(tasks.map(t => t._id === id ? { ...t, status: newStatus } : t));
+    const res = await API.put(`/tasks/${id}`, { ...task, status: newStatus });
+    setTasks(tasks.map(t => t._id === id ? res.data : t));
   };
 
   const handleCreate = async (taskData: Omit<Task, '_id' | 'status'>) => {
@@ -50,22 +55,37 @@ const Dashboard: React.FC = () => {
     setTasks(prev => prev.map(t => (t._id === updatedTask._id ? updatedTask : t)));
   };
 
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setPage(newPage);
+    }
+  };
+
   return (
     <div className="max-w-3xl mx-auto mt-10">
       <h1 className="text-3xl font-bold mb-4 text-center">Dashboard</h1>
       <TaskForm onSubmit={handleCreate} />
       <div className="mt-6 space-y-3">
-        {tasks.map(task => (
-          <TaskCard
-            key={task._id}
-            task={task}
-            onDelete={handleDelete}
-            onStatusToggle={handleStatusToggle}
-            onEdit={() => setEditingTaskId(task._id)}
-          />
-        ))}
+        {tasks.length > 0 ? (
+          tasks.map(task => (
+            <TaskCard
+              key={task._id}
+              task={task}
+              onDelete={handleDelete}
+              onStatusToggle={handleStatusToggle}
+              onEdit={() => setEditingTaskId(task._id)}
+            />
+          ))
+        ) : (
+          <p className="text-center text-gray-500 mt-4">No tasks found</p>
+        )}
       </div>
-      <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
+
+      <Pagination
+        currentPage={page}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
 
       {editingTaskId && (
         <TaskEditModal

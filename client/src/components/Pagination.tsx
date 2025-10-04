@@ -1,3 +1,4 @@
+// src/components/Pagination.tsx
 import React from 'react';
 
 interface PaginationProps {
@@ -7,11 +8,34 @@ interface PaginationProps {
 }
 
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
+  if (totalPages <= 1) {
+    // No pagination needed, but still show 1/1 to avoid UI gaps
+    return (
+      <div className="mt-4 flex justify-center items-center text-sm text-gray-600">
+        <span>{currentPage}/{totalPages || 1}</span>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex space-x-2 mt-4">
-      <button disabled={currentPage === 1} onClick={() => onPageChange(currentPage - 1)} className="px-2 py-1 bg-gray-300 rounded">Prev</button>
-      <span>{currentPage} / {totalPages}</span>
-      <button disabled={currentPage === totalPages} onClick={() => onPageChange(currentPage + 1)} className="px-2 py-1 bg-gray-300 rounded">Next</button>
+    <div className="mt-4 flex justify-center items-center space-x-4">
+      <button
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+      >
+        Prev
+      </button>
+      <span className="text-sm text-gray-600">
+        {currentPage}/{totalPages}
+      </span>
+      <button
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+      >
+        Next
+      </button>
     </div>
   );
 };
