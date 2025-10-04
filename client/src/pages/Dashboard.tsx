@@ -1,3 +1,4 @@
+// src/pages/Dashboard.tsx
 import React, { useEffect, useState } from 'react';
 import API from '../api/axios';
 import TaskCard from '../components/TaskCard';
@@ -43,15 +44,32 @@ const Dashboard: React.FC = () => {
     setTasks([res.data, ...tasks]);
   };
 
+  // Group tasks by priority
+  const priorities: Array<'high' | 'medium' | 'low'> = ['high', 'medium', 'low'];
+
   return (
-    <div className="max-w-3xl mx-auto mt-10">
-      <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
+    <div className="max-w-5xl mx-auto mt-10">
+      <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
       <TaskForm onSubmit={handleCreate} />
-      <div className="mt-4">
-        {tasks.map(task => (
-          <TaskCard key={task._id} task={task} onDelete={handleDelete} onStatusToggle={handleStatusToggle} />
-        ))}
-      </div>
+
+      {priorities.map(priority => {
+        const filteredTasks = tasks.filter(t => t.priority === priority);
+        return (
+          <div key={priority} className="mb-8">
+            <h2 className="text-xl font-semibold mb-4 capitalize">{priority} Priority</h2>
+            {filteredTasks.length === 0 ? (
+              <p className="text-gray-500">No tasks here.</p>
+            ) : (
+              <div className="flex flex-wrap gap-4">
+                {filteredTasks.map(task => (
+                  <TaskCard key={task._id} task={task} onDelete={handleDelete} onStatusToggle={handleStatusToggle} />
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
+
       <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
     </div>
   );

@@ -1,35 +1,17 @@
 // src/App.tsx
-import React, { useContext, type JSX } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, AuthContext } from './context/authContext';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
-import TaskDetails from './pages/TaskDetails';
-import TaskEdit from './pages/TaskEdit';
-import Navbar from './components/Navbar';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import TaskEdit from "./pages/TaskEdit";
+import TaskDetails from "./pages/TaskDetails";
 
-const PrivateRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
-  const { user } = useContext(AuthContext);
-  return user ? children : <Navigate to="/login" />;
-};
-
-const App: React.FC = () => {
+export default function App() {
   return (
     <Router>
-      <AuthProvider>
-        <Navbar />
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-          <Route path="/tasks/:id" element={<PrivateRoute><TaskDetails /></PrivateRoute>} />
-          <Route path="/tasks/edit/:id" element={<PrivateRoute><TaskEdit /></PrivateRoute>} />
-          <Route path="*" element={<Navigate to="/dashboard" />} />
-        </Routes>
-      </AuthProvider>
+      <Routes>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/tasks/:id" element={<TaskDetails />} />
+        <Route path="/tasks/:id/edit" element={<TaskEdit />} />
+      </Routes>
     </Router>
   );
-};
-
-export default App;
+}
