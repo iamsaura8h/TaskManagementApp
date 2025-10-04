@@ -3,7 +3,7 @@ import API from '../api/axios';
 import { AuthContext } from '../context/authContext';
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const { login } = useContext(AuthContext);
@@ -11,7 +11,7 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await API.post('/auth/login', { email, password });
+      const res = await API.post('/auth/login', { username, password });
       login(res.data.token);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Login failed');
@@ -22,7 +22,7 @@ const Login: React.FC = () => {
     <div className="max-w-md mx-auto mt-20">
       <h1 className="text-2xl font-bold mb-4">Login</h1>
       <form onSubmit={handleSubmit} className="space-y-2">
-        <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} className="border p-2 w-full" required />
+        <input type="username" placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} className="border p-2 w-full" required />
         <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} className="border p-2 w-full" required />
         {error && <p className="text-red-500">{error}</p>}
         <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Login</button>
