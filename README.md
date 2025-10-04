@@ -161,8 +161,85 @@ curl -X POST http://localhost:5000/api/tasks \
 
 ---
 
+## 🎨 Frontend Overview
+
+A **responsive React-based SPA** for managing tasks with authentication, CRUD operations, and seamless API integration. Built with **React (TypeScript)**, **Axios**, and **JWT-based auth**, the frontend demonstrates scalable architecture and modern UI practices.
+
+---
+
+### ⚡ Features
+
+* 🔑 **JWT Authentication** – Secure login, registration, and session management
+* 📝 **Task CRUD** – Create, view, update, and delete tasks
+* 🛡️ **Protected Routes** – Only authenticated users can access dashboard and task screens
+* 🧩 **Reusable Components** – Modular UI for tasks, forms, and pagination
+* 🌐 **Centralized API Layer** – Axios instance with token handling
+* 🧠 **Global State** – Auth and user context for consistent state management
+
+---
+
+### 🛠️ Tech Stack
+
+| Layer      | Technology         |
+| ---------- | ------------------ |
+| Language   | TypeScript         |
+| Framework  | React              |
+| API Client | Axios              |
+| Routing    | React Router DOM   |
+| State      | React Context      |
+| Styling    | CSS Modules / SCSS |
+
+---
+
+### 📁 Folder Structure
+
+```
+frontend/
+│
+├── src/
+│   ├── components/      # Reusable UI components
+│   ├── pages/           # Screens (Login, Dashboard, etc.)
+│   ├── context/         # Auth state management
+│   ├── api/             # Axios instance & API calls
+│   ├── types/           # TypeScript interfaces
+│   ├── App.tsx          # Main app entry
+│   └── index.tsx        # React DOM render
+└── package.json
+```
+
+> ✨ The frontend is organized for scalability, maintainability, and easy onboarding.
+
+---
+
+### 🚀 Quick Start
+
+```bash
+# Clone the repo
+git clone https://github.com/your-username/task-management-frontend.git
+cd task-management-frontend
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm start
+```
+
+Visit 👉 `http://localhost:3000`
+You should see: ✅ **Task Management App UI**
+
+---
+
+### 🌟 Highlights
+
+* 🧩 **Component-driven UI** — Fast development and easy reuse
+* 🔒 **Secure API calls** — JWT stored and sent via Axios
+* 🛠️ **Type-safe codebase** — TypeScript for reliability
+* 🚦 **Protected navigation** — Authenticated routing for user safety
+
 
 ## 🧑‍💻 Author
 
 **[Your Name](https://github.com/iamsaura8h)**
 Full-stack Developer | MERN Stack | Open Source Contributor
+
