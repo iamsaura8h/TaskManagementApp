@@ -9,8 +9,6 @@
  * - Added authentication and authorization mechanisms to secure endpoints.
  * - Developed error handling and logging for improved maintainability and debugging.
  * - Ensured modular code organization for scalability and ease of future enhancements.
- *
- * This documentation reflects the progress and key components implemented in the backend thus far.
  
 
  ### Frontend Implementation Summary:
@@ -22,9 +20,7 @@
  * - Defined TypeScript interfaces for robust type safety across entities.
  * - Set up routing with protected/private routes for authenticated access.
  * - Configured the React entry point for seamless app initialization.
- *
- * This documentation outlines the key architectural decisions and progress made in the frontend.
- */
+ 
 
 # 🧠 Task Management App
 
@@ -186,7 +182,7 @@ A **responsive React-based SPA** for managing tasks with authentication, CRUD op
 | API Client | Axios              |
 | Routing    | React Router DOM   |
 | State      | React Context      |
-| Styling    | CSS Modules / SCSS |
+| Styling    | TailwindCSS        |
 
 ---
 
@@ -200,7 +196,7 @@ frontend/
 │   ├── pages/           # Screens (Login, Dashboard, etc.)
 │   ├── context/         # Auth state management
 │   ├── api/             # Axios instance & API calls
-│   ├── types/           # TypeScript interfaces
+│   ├── types.ts         # TypeScript interfaces
 │   ├── App.tsx          # Main app entry
 │   └── index.tsx        # React DOM render
 └── package.json
