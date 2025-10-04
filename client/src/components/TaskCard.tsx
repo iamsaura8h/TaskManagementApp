@@ -1,17 +1,15 @@
 // src/components/TaskCard.tsx
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import type { Task } from '../types';
 
 interface TaskCardProps {
   task: Task;
   onDelete: (id: string) => void;
   onStatusToggle: (id: string) => void;
+  onEdit: () => void;
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ task, onDelete, onStatusToggle }) => {
-  const navigate = useNavigate();
-
+const TaskCard: React.FC<TaskCardProps> = ({ task, onDelete, onStatusToggle, onEdit }) => {
   const priorityColors: Record<string, string> = {
     high: 'bg-red-200',
     medium: 'bg-yellow-200',
@@ -20,9 +18,9 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onDelete, onStatusToggle }) =
 
   return (
     <div
-      className={`${priorityColors[task.priority]} p-4 rounded mb-2 flex justify-between items-center shadow-sm hover:shadow-md transition`}
+      className={`${priorityColors[task.priority]} p-4 rounded flex justify-between items-center shadow-sm hover:shadow-md transition`}
     >
-      <div className="flex-1 cursor-pointer" onClick={() => navigate(`/tasks/${task._id}`)}>
+      <div>
         <h2 className="font-bold text-lg">{task.title}</h2>
         <p className="text-sm">Due: {task.dueDate}</p>
         <p className="text-sm">Priority: {task.priority}</p>
@@ -37,7 +35,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onDelete, onStatusToggle }) =
           Toggle
         </button>
         <button
-          onClick={() => navigate(`/tasks/${task._id}/edit`)}
+          onClick={onEdit}
           className="px-2 py-1 bg-yellow-500 rounded text-white text-sm"
         >
           Edit

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import API from '../api/axios';
 import TaskCard from '../components/TaskCard';
 import TaskForm from '../components/TaskForm';
+import TaskEditModal from '../components/TaskEditModal';
 import Pagination from '../components/Pagination';
 import type { Task } from '../types';
 
@@ -10,6 +11,7 @@ const Dashboard: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
 
   const fetchTasks = async () => {
     try {
@@ -44,33 +46,34 @@ const Dashboard: React.FC = () => {
     setTasks([res.data, ...tasks]);
   };
 
-  // Group tasks by priority
-  const priorities: Array<'high' | 'medium' | 'low'> = ['high', 'medium', 'low'];
+  const handleUpdate = (updatedTask: Task) => {
+    setTasks(prev => prev.map(t => (t._id === updatedTask._id ? updatedTask : t)));
+  };
 
   return (
-    <div className="max-w-5xl mx-auto mt-10">
-      <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+    <div className="max-w-3xl mx-auto mt-10">
+      <h1 className="text-3xl font-bold mb-4 text-center">Dashboard</h1>
       <TaskForm onSubmit={handleCreate} />
-
-      {priorities.map(priority => {
-        const filteredTasks = tasks.filter(t => t.priority === priority);
-        return (
-          <div key={priority} className="mb-8">
-            <h2 className="text-xl font-semibold mb-4 capitalize">{priority} Priority</h2>
-            {filteredTasks.length === 0 ? (
-              <p className="text-gray-500">No tasks here.</p>
-            ) : (
-              <div className="flex flex-wrap gap-4">
-                {filteredTasks.map(task => (
-                  <TaskCard key={task._id} task={task} onDelete={handleDelete} onStatusToggle={handleStatusToggle} />
-                ))}
-              </div>
-            )}
-          </div>
-        );
-      })}
-
+      <div className="mt-6 space-y-3">
+        {tasks.map(task => (
+          <TaskCard
+            key={task._id}
+            task={task}
+            onDelete={handleDelete}
+            onStatusToggle={handleStatusToggle}
+            onEdit={() => setEditingTaskId(task._id)}
+          />
+        ))}
+      </div>
       <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
+
+      {editingTaskId && (
+        <TaskEditModal
+          taskId={editingTaskId}
+          onClose={() => setEditingTaskId(null)}
+          onUpdate={handleUpdate}
+        />
+      )}
     </div>
   );
 };
