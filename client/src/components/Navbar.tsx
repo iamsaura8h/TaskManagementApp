@@ -1,7 +1,7 @@
 // src/components/Navbar.tsx
 import React, { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { CheckSquare, LogOut, User } from 'lucide-react';
+import { CheckSquare, LogOut } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 
 const Navbar: React.FC = () => {
