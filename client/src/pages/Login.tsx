@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import API from '../api/axios';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/authContext';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');

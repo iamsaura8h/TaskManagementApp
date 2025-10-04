@@ -1,12 +1,13 @@
 // src/App.tsx
-import React, { useContext } from 'react';
+import React, { useContext, type JSX } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, AuthContext } from './context/AuthContext';
+import { AuthProvider, AuthContext } from './context/authContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import TaskDetails from './pages/TaskDetails';
 import TaskEdit from './pages/TaskEdit';
+import Navbar from './components/Navbar';
 
 const PrivateRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
   const { user } = useContext(AuthContext);
@@ -17,6 +18,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <AuthProvider>
+        <Navbar />
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
