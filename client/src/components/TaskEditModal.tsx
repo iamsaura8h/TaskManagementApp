@@ -1,5 +1,6 @@
 // src/components/TaskEditModal.tsx
 import React, { useEffect, useState } from 'react';
+import { X } from 'lucide-react';
 import API from '../api/axios';
 import TaskForm from './TaskForm';
 import type { Task } from '../types';
@@ -50,21 +51,39 @@ const TaskEditModal: React.FC<TaskEditModalProps> = ({ taskId, onClose, onUpdate
   if (!taskId) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-lg rounded-lg shadow-lg p-6 relative animate-in fade-in zoom-in">
+    <div 
+      className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      onClick={onClose}
+    >
+      <div 
+        className="bg-white w-full max-w-2xl rounded-xl shadow-2xl relative animate-in fade-in zoom-in duration-200"
+        onClick={(e) => e.stopPropagation()}
+      >
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-lg"
+          className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-lg transition-colors z-10"
+          title="Close"
         >
-          ✕
+          <X className="w-5 h-5 text-gray-500" />
         </button>
 
-        <h2 className="text-2xl font-bold mb-4 text-center">Edit Task</h2>
-        {loading ? (
-          <p className="text-center text-gray-500">Loading task...</p>
-        ) : (
-          <TaskForm onSubmit={handleSubmit} initialData={initialData ?? undefined} />
-        )}
+        <div className="p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Edit Task</h2>
+          {loading ? (
+            <div className="flex items-center justify-center py-8">
+              <div className="flex flex-col items-center gap-3">
+                <div className="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                <p className="text-sm text-gray-500">Loading task...</p>
+              </div>
+            </div>
+          ) : (
+            <TaskForm 
+              onSubmit={handleSubmit} 
+              initialData={initialData ?? undefined}
+              onCancel={onClose}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
