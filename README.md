@@ -1,8 +1,7 @@
 ## Assignment for MagnetBrains (Task Management App)
 
-/**
- * Backend Implementation Summary:
- *
+ ### Backend Implementation Summary:
+ 
  * - Established the foundational backend structure for the application.
  * - Set up essential configurations, including environment variables and middleware.
  * - Implemented core API endpoints to handle client requests and responses.
@@ -13,9 +12,9 @@
  *
  * This documentation reflects the progress and key components implemented in the backend thus far.
  
-/**
- * Frontend Implementation Summary:
- *
+
+ ### Frontend Implementation Summary:
+ 
  * - Established a centralized Axios instance for API communication with JWT support.
  * - Developed reusable UI components for tasks, forms, and pagination.
  * - Implemented global authentication state management using React Context.
@@ -27,7 +26,7 @@
  * This documentation outlines the key architectural decisions and progress made in the frontend.
  */
 
-# 🧠 Task Management API
+# 🧠 Task Management App
 
 A **modern, production-ready REST API** for managing tasks with authentication and CRUD operations.
 Built with **Express.js (ESM)**, **MongoDB**, and **JWT Authentication**, this project showcases clean backend architecture and is deployable out of the box.
