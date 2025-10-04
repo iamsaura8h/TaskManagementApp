@@ -30,10 +30,10 @@ const Navbar: React.FC = () => {
             {user ? (
               <>
                 {/* User Info */}
-                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-lg border border-gray-200">
+                {/* <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-lg border border-gray-200">
                   <User className="w-4 h-4 text-gray-600" />
                   <span className="text-sm font-medium text-gray-700">{user.username || 'User'}</span>
-                </div>
+                </div> */}
 
                 {/* Logout Button */}
                 <button
